@@ -4,8 +4,7 @@
 - Lombok
 - Validation
 - Oracle Driver (직접 추가 필요)
-
-MyBatis : 설치 필요
+- MyBatis : 설치 필요
 
 #FrontEnd
 - axios
