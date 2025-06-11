@@ -1,0 +1,39 @@
+# IDE (IntelliJ)
+.idea/
+*.iml
+*.iws
+*.ipr
+*.swp
+
+# 빌드/런타임 결과물 (Maven/Gradle)
+target/
+build/
+bin/
+out/
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+
+# 프론트엔드 (React, Vue 등)
+node_modules/
+dist/
+.cache/
+.env
+.env.local
+
+# 운영체제/에디터/기타
+.DS_Store
+*.log
+*.bak
+*.tmp
+*~
+._*
+Thumbs.db
+
+# 로컬 설정 파일
+*.properties
+*.yml.local
+*.yaml.local
