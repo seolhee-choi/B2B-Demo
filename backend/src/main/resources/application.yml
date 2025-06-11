@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: B2B-Demo
+  datasource:
+    driver-class-name:
+    url:
+    username:
+    password:
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+#  backend ?? ?? ??? ?
+  type-aliases-package: com.example.backend.dto
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){green} %clr(%-5level) %clr(${PID:-}){magenta} %clr(---){faint} [B2B-Demo] %clr(%logger - %M{10}){cyan} - %msg%n)"
+  level:
+    root: INFO
+    com.sns.backend: DEBUG
+    org.springframework.security: DEBUG
+    org.mybatis: DEBUG
+    org.mybatis.spring.SqlSessionTemplate: DEBUG
+    org.springframework.jdbc.datasource: DEBUG
+
