@@ -1,8 +1,9 @@
 <script setup>
+
 </script>
 
 <template>
-  <router-view></router-view>
+  <h2>Footer</h2>
 </template>
 
 <style scoped>
