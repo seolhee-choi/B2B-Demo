@@ -1,5 +1,4 @@
 <script setup>
-import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import { ref, computed } from "vue";
 
 const customerId = ref("");
@@ -50,11 +49,10 @@ const submit = async () => {
   console.log("제출할 데이터:", data);
   // 나중에 API 연결 예정
 };
+defineOptions({ name: 'SalesCreate' })
 </script>
 
 <template>
-  <default-layout>
-    <template v-slot:content>
       <h1 class="form-title">판매 생성</h1>
 
       <div class="form-container">
@@ -115,8 +113,6 @@ const submit = async () => {
           <button @click="submit">판매 등록</button>
         </div>
       </div>
-    </template>
-  </default-layout>
 </template>
 
 <style scoped>

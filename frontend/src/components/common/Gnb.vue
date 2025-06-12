@@ -14,32 +14,45 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 import { menuData } from '@/data/menuData'
 import { useLnbStore } from '@/stores/lnb'
 
-const menus = menuData
-const selectedId = ref(menus[0].id)
+const menus = ref([])
+const selectedId = ref('')
 const lnbStore = useLnbStore()
 
 function select(id) {
   selectedId.value = id
-  const selected = menus.find(m => m.id === id)
+  const selected = menus.value.find((m) => m.id === id)
   lnbStore.setItems(selected.children)
 }
+
+onMounted(() => {
+  menus.value = menuData
+  selectedId.value = menus.value[0].id
+})
 </script>
 
 <style scoped>
+.gnb {
+  background-color: #2c3e50;
+  padding: 0.5rem 1rem;
+  color: white;
+}
 .gnb ul {
   display: flex;
+  gap: 1.5rem;
   list-style: none;
+  margin: 0;
   padding: 0;
 }
 .gnb li {
-  margin-right: 20px;
   cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.3s;
 }
-.gnb li.active {
-  font-weight: bold;
+.gnb li:hover {
+  color: #1abc9c;
 }
 </style>

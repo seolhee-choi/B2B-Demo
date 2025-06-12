@@ -1,6 +1,4 @@
 <template>
-  <login-layout>
-    <template v-slot:content>
       <h1>Login Page</h1>
       <div class="form-floating">
         <label for="floatingInput">ID</label>
@@ -20,12 +18,9 @@
       <button @click="submit">
         로그인
       </button>
-    </template>
-  </login-layout>
 </template>
 
 <script setup>
-import LoginLayout from '@/layouts/LoginLayout.vue'
 import apiClient from '@/utils/ApiClient.js'
 import ValidationUtils  from '@/utils/ValidationUtils.js'
 import _ from 'lodash'

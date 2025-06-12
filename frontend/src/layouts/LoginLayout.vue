@@ -1,6 +1,6 @@
 <template>
   <Header/>
-    <slot name="content"/>
+    <router-view/>
   <Footer/>
 </template>
 

@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import CommonDialog from '@/components/common/CommonDialog.vue' // 공통 모달창 컴포넌트 가져오기
 
 /////////// 모달창 Start ////////////
@@ -20,12 +19,11 @@ const dialogOpen = ref(false)
 function handleSubmit(data) {
   console.log('제출 데이터:', data)
 }
+defineOptions({ name: 'ClientList' })
 //////////// 모달창 End /////////////
 </script>
 
 <template>
-  <default-layout>
-    <template v-slot:content>
       <h1>Client Page</h1>
       <el-button type="primary" @click="dialogOpen = true">회원가입</el-button>
       <CommonDialog
@@ -98,8 +96,6 @@ function handleSubmit(data) {
         :initialData="initialData"
         @submit="handleSubmit"
       />
-    </template>
-  </default-layout>
 </template>
 
 <style scoped>

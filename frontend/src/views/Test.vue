@@ -1,9 +1,9 @@
 <script setup>
-defineOptions({ name: 'SalesList' })
+defineOptions({ name: 'Test' })
 </script>
 
 <template>
-      <h1>Sales Page</h1>
+  <h1>DEP3 TEST!!</h1>
 </template>
 
 <style scoped>

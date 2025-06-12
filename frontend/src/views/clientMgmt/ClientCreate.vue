@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import CommonDialog from '@/components/common/CommonDialog.vue'
 
 const dialogOpen1 = ref(false)
@@ -129,11 +128,10 @@ function handleSubmit1(data) {
 function handleSubmit2(data) {
   console.log('회원가입2 데이터:', data)
 }
+defineOptions({ name: 'ClientCreate' })
 </script>
 
 <template>
-  <default-layout>
-    <template v-slot:content>
       <h1>고객생성</h1>
 
       <el-button type="primary" @click="dialogOpen1 = true">회원가입1</el-button>
@@ -171,8 +169,6 @@ function handleSubmit2(data) {
         @submit="handleSubmit2"
       />
 
-    </template>
-  </default-layout>
 </template>
 
 <style scoped>

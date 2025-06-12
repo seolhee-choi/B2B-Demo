@@ -1,13 +1,13 @@
 <template>
   <aside class="lnb">
     <ul>
-      <li
+      <LnbItem
         v-for="item in lnbStore.items"
         :key="item.id"
-        @click="openTab(item)"
-      >
+        :item="item"
+        @open="openTab">
         {{ item.name }}
-      </li>
+      </LnbItem>
     </ul>
   </aside>
 </template>
@@ -16,13 +16,14 @@
 import { useLnbStore } from '@/stores/lnb'
 import { useTabStore } from '@/stores/tab'
 import { useRouter } from 'vue-router'
+import LnbItem from '@/components/common/LnbItem.vue'
 
 const lnbStore = useLnbStore()
 const tabStore = useTabStore()
 const router = useRouter()
 
 function openTab(item) {
-  // tabStore.addTab(item)
+  tabStore.addTab(item)
   router.push(item.route)
 }
 </script>
@@ -30,10 +31,15 @@ function openTab(item) {
 <style scoped>
 .lnb {
   width: 200px;
-  padding: 10px;
+  background-color: #f4f6f8;
+  border-right: 1px solid #ddd;
+  padding: 1rem;
+  overflow-y: auto;
 }
+
 .lnb li {
   cursor: pointer;
   margin: 5px 0;
+  list-style: none;
 }
 </style>

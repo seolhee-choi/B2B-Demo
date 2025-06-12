@@ -1,20 +1,16 @@
 <script setup>
 
-import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import DashboardCalendar from "@/views/dashboardMgmt/DashboardCalendar.vue";
 import DashboardChart from "@/views/dashboardMgmt/DashboardChart.vue";
+defineOptions({ name: 'DashBoard' })
 </script>
 
 <template>
-  <default-layout>
-    <template v-slot:content>
       <h1>Dash Board</h1>
       <div class="dashboard-container">
         <DashboardChart class="chart"/>
         <DashboardCalendar class="calendar"/>
       </div>
-    </template>
-  </default-layout>
 </template>
 
 <style scoped>
