@@ -11,31 +11,37 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @Getter @Setter
-public class ApiResponse implements Serializable {
+public class ApiResponse<T> implements Serializable {
 
     private static final long serialVersionUID = 2374523428697822813L;
 
     private int code;
     private String message;
-    private Object body;
+    private T body; // 제네릭 타입 사용
     private ZonedDateTime timestamp;
 
-    protected ApiResponse(Object body) {
+    protected ApiResponse(T body) {
         this.code = HttpStatus.OK.value();
         this.message = HttpStatus.OK.getReasonPhrase();
         this.body = body;
         this.timestamp = ZonedDateTime.now();
     }
+
     protected ApiResponse(HttpStatus status, String message) {
         this.code = status.value();
         this.message = message;
         this.timestamp = ZonedDateTime.now();
     }
 
-    public static ApiResponse of(Object body) {
-        return new ApiResponse(body);
+    public static <T> ApiResponse<T> of(T body) {
+        return new ApiResponse<>(body);
     }
-    public static ApiResponse of(HttpStatus status, String message) {
-        return new ApiResponse(status, message);
+
+    public static <T> ApiResponse<T> of(HttpStatus status, String message) {
+        ApiResponse<T> response = new ApiResponse<>(status, message);
+        response.setBody(null);
+        return response;
+
     }
 }
+
