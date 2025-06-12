@@ -2,11 +2,10 @@ spring:
   application:
     name: B2B-Demo
   datasource:
-    driver-class-name:
-    url:
-    username:
-    password:
-
+    url: jdbc:oracle:thin:@192.168.31.76:1521:ORCL
+    username: Minsng
+    password: 1234
+    driver-class-name: oracle.jdbc.OracleDriver
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 #  backend ?? ?? ??? ?
