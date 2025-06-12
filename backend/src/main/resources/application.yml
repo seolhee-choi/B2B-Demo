@@ -25,3 +25,10 @@ logging:
     org.mybatis: DEBUG
     org.mybatis.spring.SqlSessionTemplate: DEBUG
     org.springframework.jdbc.datasource: DEBUG
+
+#Swagger3
+springdoc:
+  api-docs:
+    path: /backend-api
+  swagger-ui:
+    path: /swagger-ui.html

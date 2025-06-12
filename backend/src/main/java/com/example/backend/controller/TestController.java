@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.TestDto;
 import com.example.backend.service.TestService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ public class TestController {
 
     private final TestService testService;
 
+    @Operation(summary = "접속가능여부")
     @GetMapping("/conn")
     public ResponseEntity<List<TestDto>> getConnectCheck() {
         return ResponseEntity.ok().body(testService.getConnectCheck());
