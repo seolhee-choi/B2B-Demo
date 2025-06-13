@@ -1,10 +1,12 @@
-import { filter, find, findIndex, isDate, isEmpty, last } from 'lodash'
+import { filter, find, findIndex, isEmpty, last, toString, isNil, trim } from 'lodash'
 
 export const _ = {
   isEmpty,
-  isDate,
   filter,
   find,
   findIndex,
-  last
+  last,
+  toString,
+  trim,
+  isNil
 }
