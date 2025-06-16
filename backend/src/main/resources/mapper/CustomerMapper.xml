@@ -4,9 +4,59 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.backend.mapper.CustomerMapper">
-    <select id="getCustomerList" resultType="CustomerDto">
+    <!-- 생성일 역순으로 고객 리스트 조회  -->
+    <select id="getCustomerList" parameterType="String" resultType="CustomerDto">
         SELECT CUST_ID, CUST_NM, AGE, GENDER, PHONE, POST_CODE, ADDR1, ADDR2, CREATED_AT
         FROM CUSTOMER
+        <if test='sword != null or sword != ""'>
+            WHERE CUST_NM = #{sword}
+        </if>
         ORDER BY CREATED_AT DESC
     </select>
+
+    <!-- 고객 insert -->
+    <insert id="insertCustomer" parameterType="CustomerDto">
+        INSERT INTO CUSTOMER
+        (
+            CUST_NM,
+            AGE,
+            GENDER,
+            PHONE,
+            POST_CODE,
+            ADDR1,
+            ADDR2
+        ) VALUES
+        (
+            #{custNm},
+            #{age},
+            #{gender},
+            #{phone},
+            #{postCode},
+            #{addr1},
+            #{addr2}
+        )
+    </insert>
+
+    <!-- 고객 정보 전체 수정 -->
+    <update id="updateCustomer" parameterType="CustomerDto">
+        UPDATE CUSTOMER
+            SET
+                CUST_NM = #{custNm},
+                AGE = #{age},
+                GENDER = #{gender},
+                PHONE = #{phone},
+                POST_CODE = #{postCode},
+                ADDR1 = #{addr1},
+                ADDR2 = #{addr2}
+        WHERE CUST_ID = #{custId}
+    </update>
+
+    <!-- 고객 정보 개별 수정 -->
+    <update id="updateCustomerOne" parameterType="Map">
+        UPDATE CUSTOMER
+            SET
+                ${field} = #{value}
+        WHERE CUST_ID = #{custId}
+    </update>
+
 </mapper>
