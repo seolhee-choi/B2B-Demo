@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.mapper.KydMapper">
+	<select id="find_1" parameterType="java.util.Map" resultType="com.example.backend.dto.KydDto">
+		SELECT  ID
+			 ,CATEGORY
+			 ,DESCRIPTION
+			 ,NAME
+			 ,RATING
+		FROM KYD_TEST
+		ORDER BY ID DESC
+	</select>
+	<select id="find_2" resultType="int">
+		SELECT  COUNT(*) AS CNT FROM KYD_TEST
+	</select>
+	<select id="find_3" parameterType="org.springframework.data.domain.Pageable" resultType="com.example.backend.dto.KydDto">
+		SELECT  ID
+			 ,CATEGORY
+			 ,DESCRIPTION
+			 ,NAME
+			 ,RATING
+		FROM KYD_TEST
+		ORDER BY ID DESC
+		OFFSET #{offset} ROWS FETCH NEXT #{pageSize} ROWS ONLY
+	</select>
+</mapper>
