@@ -1,11 +1,9 @@
 package com.example.backend.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter @Setter @RequiredArgsConstructor
+@Data
 public class MenuDto {
 
     @Schema(description = "메뉴 ID")

@@ -35,10 +35,10 @@ public class MenuController {
                     menuService.selectMenuByUser(userId)
                     : menuService.selectMenuByNoUser();
 
-            return new ApiResponse<>(HttpStatus.OK.toString(), "메뉴조회 성공~~",list);
+            return new ApiResponse<>(HttpStatus.OK.toString(), "메뉴조회 성공",list);
         } catch (Exception e) {
 
-            return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.toString(), e.toString(), new ArrayList<>());
+            return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.toString(), e.getMessage(), null);
         }
 
     }
