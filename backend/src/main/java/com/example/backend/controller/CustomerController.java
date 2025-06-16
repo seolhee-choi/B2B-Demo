@@ -73,7 +73,7 @@ public class CustomerController {
         }
     }
 
-    @PostMapping("/update")
+    @PostMapping("/updateOne")
     public ApiResponse<Map<String, Object>> updateCustomerOne(@RequestParam int custId, @RequestParam String field, @RequestParam String value) {
 
         Map<String, Object> map = new HashMap<>();
