@@ -12,7 +12,7 @@ public class MenuDto {
     private int menuId;
 
     @Schema(description = "메뉴명")
-    private String menuName;
+    private String menuNm;
 
     @Schema(description = "URL")
     private String pageUrl;
@@ -23,4 +23,9 @@ public class MenuDto {
     @Schema(description = "메뉴 계층")
     private int dept;
 
+
+    private String first;
+    private String second;
+    private String third;
+    private String comPath;
 }
