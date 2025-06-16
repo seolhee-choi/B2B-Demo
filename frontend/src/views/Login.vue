@@ -1,29 +1,29 @@
 <template>
       <h1>Login Page</h1>
-      <div class="form-floating">
+      <el-form-item class="form-floating">
         <label for="floatingInput">ID</label>
-        <input
+        <el-input
           v-model="state.form.id"
           @keyup.enter="submit"
         />
-      </div>
-      <div class="form-floating">
+      </el-form-item>
+      <el-form-item class="form-floating">
         <label for="floatingPassword">Password</label>
-        <input
+        <el-input
           type="password"
           v-model="state.form.password"
           @keyup.enter="submit"
         />
-      </div>
-      <button @click="submit">
+      </el-form-item>
+      <el-button type="primary" @click="submit">
         로그인
-      </button>
+      </el-button>
 </template>
 
 <script setup>
+import _ from 'lodash'
 import apiClient from '@/utils/ApiClient.js'
 import ValidationUtils  from '@/utils/ValidationUtils.js'
-import _ from 'lodash'
 import { reactive } from 'vue'
 
 const state = reactive({
@@ -47,5 +47,7 @@ const submit = async () => {
 
 </script>
 <style scoped>
-
+.el-input {
+  width: 240px;
+}
 </style>
