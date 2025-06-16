@@ -6,10 +6,11 @@
         SELECT u.USER_ID AS userId,
                u.EMAIL AS email,
                u.PASSWORD AS password,
-               r.ROLE_CD AS roleCd
-        FROM TB_USER u
-                 JOIN TB_ROLE r ON u.ROLE_ID = r.ROLE_ID
-        WHERE u.EMAIL = #{email}
+               r.ROLE_CD AS roleCd,
+               r.ROLE_ID AS roleId
+          FROM TB_USER u
+          JOIN TB_ROLE r ON u.ROLE_ID = r.ROLE_ID
+         WHERE u.EMAIL = #{email}
     </select>
 
 </mapper>

@@ -5,6 +5,15 @@ public class UserDto {
     private String email;
     private String password;
     private String roleCd;
+    private long roleId;
+
+    public long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(long roleId) {
+        this.roleId = roleId;
+    }
 
     public long getUserId() {
         return userId;

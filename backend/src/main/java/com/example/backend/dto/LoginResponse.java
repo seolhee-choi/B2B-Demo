@@ -4,11 +4,21 @@ public class LoginResponse {
     private Long userId;
     private String email;
     private String roleCd;
+    private long roleId;
 
-    public LoginResponse(Long userId, String email, String roleCd) {
+    public long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(long roleId) {
+        this.roleId = roleId;
+    }
+
+    public LoginResponse(Long userId, String email, String roleCd, Long roleId) {
         this.userId = userId;
         this.email = email;
         this.roleCd = roleCd;
+        this.roleId = roleId;
     }
 
     public Long getUserId() {
