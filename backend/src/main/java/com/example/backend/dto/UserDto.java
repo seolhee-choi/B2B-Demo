@@ -1,22 +1,16 @@
-package com.example.backend.user.dto;
+package com.example.backend.dto;
 
-
-public class LoginResponse {
-    private int  userId;
+public class UserDto {
+    private long userId;
     private String email;
+    private String password;
     private String roleCd;
 
-    public LoginResponse(int userId, String email, String roleCd) {
-        this.userId = userId;
-        this.email = email;
-        this.roleCd = roleCd;
-    }
-
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -26,6 +20,14 @@ public class LoginResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRoleCd() {

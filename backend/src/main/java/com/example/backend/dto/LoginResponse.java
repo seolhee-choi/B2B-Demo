@@ -1,17 +1,21 @@
-package com.example.backend.user.model;
+package com.example.backend.dto;
 
-
-public class UserWithRole {
-    private int userId;
+public class LoginResponse {
+    private Long userId;
     private String email;
-    private String password;
     private String roleCd;
 
-    public int getUserId() {
+    public LoginResponse(Long userId, String email, String roleCd) {
+        this.userId = userId;
+        this.email = email;
+        this.roleCd = roleCd;
+    }
+
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -21,14 +25,6 @@ public class UserWithRole {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getRoleCd() {
