@@ -24,7 +24,7 @@ public class UserController {
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request, HttpSession session) {
         LoginResponse response = authService.login(request);
         session.setAttribute("USER_ID", response.getUserId());
-        session.setAttribute("ROLE_CD", response.getRoleCd());
+        session.setAttribute("ROLE_ID", response.getRoleId());
         return ResponseEntity.ok(response);
     }
 

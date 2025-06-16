@@ -2,9 +2,17 @@ package com.example.backend.dto;
 
 public class LoginResponse {
     private Long userId;
-    private String email;
-    private String roleCd;
     private long roleId;
+    /* roleId : 권한
+        1 : 관리자(전체)
+        2 : 게스트
+        3 : 판매원
+        4 : 고객
+     */
+    public LoginResponse(Long userId, Long roleId) {
+        this.userId = userId;
+        this.roleId = roleId;
+    }
 
     public long getRoleId() {
         return roleId;
@@ -14,12 +22,6 @@ public class LoginResponse {
         this.roleId = roleId;
     }
 
-    public LoginResponse(Long userId, String email, String roleCd, Long roleId) {
-        this.userId = userId;
-        this.email = email;
-        this.roleCd = roleCd;
-        this.roleId = roleId;
-    }
 
     public Long getUserId() {
         return userId;
@@ -27,21 +29,5 @@ public class LoginResponse {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getRoleCd() {
-        return roleCd;
-    }
-
-    public void setRoleCd(String roleCd) {
-        this.roleCd = roleCd;
     }
 }
