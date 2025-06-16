@@ -1,14 +1,14 @@
 <template>
   <div class="tabs">
     <div
-      v-for="tab in tabs"
+      v-for="tab in tabStore.tabs"
       :key="tab.id"
       class="tab"
-      :class="{ active: tab.id === currentId }"
+      :class="{ active: tab.id === tabStore.currentTabId }"
       @click="selectTab(tab)"
     >
       {{ tab.name }}
-      <span class="close" @click.stop="closeTab(tab)">×</span>
+      <span class="close-btn" @click.stop="closeTab(tab)">×</span>
     </div>
   </div>
 </template>
@@ -16,10 +16,9 @@
 <script setup>
 import { useTabStore } from '@/stores/tab'
 import { useRouter } from 'vue-router'
+import {watch} from "vue";
 
 const tabStore = useTabStore()
-const tabs = tabStore.tabs
-const currentId = tabStore.currentTabId
 const router = useRouter()
 
 function selectTab(tab) {
@@ -30,28 +29,34 @@ function selectTab(tab) {
 function closeTab(tab) {
   tabStore.removeTab(tab)
 }
+
+watch(
+  () => tabStore.currentTabId,
+  (newId) => {
+    const tab = tabStore.tabs.find(t => t.id === newId)
+
+    if (tab) {
+      router.push(tab.route) // 각 탭에 route 속성이 있어야 함
+    } else {
+      router.push('/') // 모든 탭이 닫히면 루트로 이동
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style scoped>
 .tabs {
   display: flex;
-  background: #ddd;
-  padding: 5px;
+  border-bottom: 1px solid #ccc;
 }
-.tab {
-  padding: 5px 10px;
-  margin-right: 5px;
-  background: #bbb;
-  border-radius: 3px;
+.tabs div {
+  padding: 6px 12px;
+  border-right: 1px solid #ddd;
   cursor: pointer;
 }
-.tab.active {
-  background: #999;
+.tabs div.active {
   font-weight: bold;
-}
-.close {
-  margin-left: 5px;
-  color: red;
-  cursor: pointer;
+  background-color: #eee;
 }
 </style>
