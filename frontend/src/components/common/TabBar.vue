@@ -4,7 +4,7 @@
       v-for="tab in tabStore.tabs"
       :key="tab.id"
       class="tab"
-      :class="{ active: tab.id === currentId }"
+      :class="{ active: tab.id === tabStore.currentTabId }"
       @click="selectTab(tab)"
     >
       {{ tab.name }}
@@ -19,7 +19,6 @@ import { useRouter } from 'vue-router'
 import {watch} from "vue";
 
 const tabStore = useTabStore()
-const currentId = tabStore.currentTabId
 const router = useRouter()
 
 function selectTab(tab) {

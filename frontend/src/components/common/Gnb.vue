@@ -26,6 +26,7 @@ function select(id) {
   selectedId.value = id
   const selected = menus.value.find((m) => m.id === id)
   lnbStore.setItems(selected.children)
+  lnbStore.setCurrentGnbId(selected?.id)
 }
 
 onMounted(() => {

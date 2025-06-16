@@ -8,7 +8,7 @@
         <TabBar />
         <main class="content">
           <router-view v-slot="{ Component }">
-            <keep-alive :include="tabComponentNames">
+            <keep-alive>
               <component :is="Component" />
             </keep-alive>
           </router-view>
