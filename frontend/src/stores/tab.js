@@ -1,7 +1,7 @@
 // src/stores/tabStore.js
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import _ from 'lodash'
+import { _ } from '@/utils/lodash.js'
 
 export const useTabStore = defineStore('tab', () => {
   const tabs = ref([])

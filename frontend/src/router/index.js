@@ -62,21 +62,20 @@ const routes = [
       {
         path: 'dep/3',
         name: 'Test',
-        component: () => import('@/views/Test.vue'),
+        component: () => import('@/views/test/Test.vue'),
       }
     ]
   },
-  // {
-  //   path: '/dep',
-  //   component: TestLayout,
-  //   children: [
-  //     {
-  //       path: '/3',
-  //       name: 'Dep3',
-  //       component: () => import('@/views/Test.vue'),
-  //     }
-  //   ]
-  // }
+  {
+    path: '/popup-page',
+    name: 'popupPage',
+    component: () => import('@/views/test/Popup1.vue'),
+  },
+  {
+    path: '/popup-page2',
+    name: 'popupPage2',
+    component: () => import('@/views/test/Popup2.vue'),
+  }
 ]
 
 const router = createRouter({
