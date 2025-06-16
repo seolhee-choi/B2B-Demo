@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.mapper.BookmarkMenuMapper">
+
+    <resultMap id="MenuItemResultMap" type="com.example.backend.dto.MenuItem">
+        <result property="menu_id" column="bm_menu_id"/>
+        <result property="menu_nm" column="menu_nm"/>
+        <result property="page_url" column="page_url"/>
+        <result property="parent_id" column="parent_id"/>
+        <result property="depth" column="depth"/>
+        <result property="use_yn" column="use_yn"/>
+    </resultMap>
+
+    <!-- 즐겨찾기 추가 -->
+    <insert id="addBookmark" parameterType="com.example.backend.dto.BookMark_menu">
+        INSERT INTO tb_bookmark_menu (user_id, menu_id)
+        VALUES (#{userId}, #{menuId})
+    </insert>
+
+    <!-- 즐겨찾기 삭제 -->
+    <delete id="removeBookmark" parameterType="com.example.backend.dto.BookMark_menu">
+        DELETE FROM tb_bookmark_menu
+        WHERE user_id = #{userId} AND menu_id = #{menuId}
+    </delete>
+
+<!--    사용자 ID 를 기준으로 메뉴 목록을 페이징 처리하여 조회-->
+    <select id="getBookmarkMenus" resultMap="MenuItemResultMap">
+        <![CDATA[
+        SELECT *
+        FROM (
+            SELECT bm.menu_id AS bm_menu_id,  -- 'menu_id'를 별칭으로 변경
+                   bm.user_id,
+                   m.menu_id AS m_menu_id,  -- 'menu_id'를 별칭으로 변경
+                   m.menu_nm,
+                   m.page_url,
+                   m.parent_id,
+                   m.depth,
+                   m.use_yn
+            FROM tb_bookmark_menu bm
+            JOIN tb_menu m ON bm.menu_id = m.menu_id  -- tb_bookmark_menu와 tb_menu 조인
+            WHERE bm.user_id = #{userId}
+            ORDER BY m.menu_id  -- menu_id로 정렬
+        )
+        WHERE ROWNUM <= #{limit} AND ROWNUM > #{offset}
+            ]]>
+    </select>
+
+    <!-- 즐겨찾기 중복 확인 -->
+    <select id="checkBookmark" parameterType="com.example.backend.dto.BookMark_menu" resultType="Integer">
+        SELECT COUNT(*)
+        FROM tb_bookmark_menu
+        WHERE user_id = #{userId} AND menu_id = #{menuId}
+    </select>
+
+<!--    즐겨찾기 메뉴의 총 개수 조회 -->
+    <select id="countBookmarkMenus" resultType="long">
+        SELECT COUNT(*) FROM tb_bookmark_menu WHERE user_id = #{userId}
+    </select>
+
+</mapper>
