@@ -1,6 +1,10 @@
 <template>
-  <h1 class="form-title">판매 생성</h1>
+  <h1 class="form-title">Sales Create</h1>
   <div class="form-container">
+    <div class="form-group">
+      <label>작성자</label>
+      <input v-model="userId" readonly />
+    </div>
     <div class="form-group">
       <label for="customerId">고객</label>
       <div class="form-inline">
@@ -96,8 +100,10 @@
 
 <script setup>
 import { ref, computed } from "vue"
+import axios from "axios"
 import SalesSearchDialog from "../salesMgmt/SalesSearchDialog.vue"
 
+const userId = ref("102") // 임시 사용자 ID, 추후 로그인 정보 연동 가능
 const customerId = ref("")
 const searchCustomerKeyword = ref("")
 const searchProductCodeKeyword = ref("")
@@ -112,9 +118,9 @@ const showCustomerDialog = ref(false)
 const showProductDialog = ref(false)
 
 const customerList = [
-  { uid: "1", name: "홍길동1", tel: "010-1235-0001", post: "12345", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "101동1호" },
-  { uid: "2", name: "박철수", tel: "010-1235-0002", post: "12346", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "102동2호" },
-  { uid: "3", name: "김영희", tel: "010-1235-0003", post: "12343", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "103동3호" },
+  { uid: "1", custId: "C001", name: "홍길동1", tel: "010-1235-0001", post: "12345", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "101동1호" },
+  { uid: "2", custId: "C002", name: "박철수", tel: "010-1235-0002", post: "12346", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "102동2호" },
+  { uid: "3", custId: "C003", name: "김영희", tel: "010-1235-0003", post: "12343", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "103동3호" },
 ]
 
 const productList = [
@@ -129,7 +135,6 @@ const openCustomerDialog = () => {
 }
 
 const openProductDialog = () => {
-  // 항상 최근 값을 기준으로 초기화
   searchProductCodeKeyword.value = ""
   showProductDialog.value = true
 }
@@ -150,9 +155,30 @@ const handleProductSelected = (product) => {
 const saleAmount = computed(() => unitPrice.value - discount.value)
 
 const submit = async () => {
+  if (!customerId.value.trim()) {
+    alert("고객을 선택해주세요.");
+    return;
+  }
+  if (!productCode.value.trim()) {
+    alert("상품을 선택해주세요.");
+    return;
+  }
+  if (!deliveryDate.value.trim()) {
+    alert("배송요청일을 입력해주세요.");
+    return;
+  }
+  if (!shippingAddress.value.trim()) {
+    alert("배송지를 입력해주세요.");
+    return;
+  }
+
   try {
+    const selectedProduct = productList.find(p => p.product_cd === productCode.value)
+
     const payload = {
-      customerId: customerId.value,
+      custId: customerId.value,
+      userId: userId.value,
+      proId: selectedProduct?.uid || null,
       productCode: productCode.value,
       productName: productName.value,
       unitPrice: unitPrice.value,
@@ -163,23 +189,17 @@ const submit = async () => {
       shippingAddress: shippingAddress.value,
     }
 
-    const response = {
+    const response = await axios.post("/api/sales/save", payload)
 
-      data: {
-        status: "success",
-        message: "등록 성공",
-        submittedData: payload,
-      },
-    }
-
-    console.log("\ud83d\udce6 Response:", response.data)
+    console.log(" Response:", response.data)
     alert("판매 등록 완료")
   } catch (error) {
-    console.error("\u274c 등록 실패:", error)
+    console.error(" 등록 실패:", error)
     alert("판매 등록 중 오류 발생")
   }
 }
 </script>
+
 
 <style scoped>
 .form-title {
