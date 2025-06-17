@@ -1,4 +1,4 @@
-import { filter, find, findIndex, isEmpty, last, toString, isNil, trim } from 'lodash'
+import { filter, find, findIndex, isEmpty, last, toString, isNil, trim, isString } from 'lodash'
 
 export const _ = {
   isEmpty,
@@ -8,5 +8,6 @@ export const _ = {
   last,
   toString,
   trim,
-  isNil
+  isNil,
+  isString
 }

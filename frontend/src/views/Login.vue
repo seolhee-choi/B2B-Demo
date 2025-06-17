@@ -3,7 +3,7 @@
       <el-form-item class="form-floating">
         <label for="floatingInput">ID</label>
         <el-input
-          v-model="state.form.id"
+          v-model="state.form.email"
           @keyup.enter="submit"
         />
       </el-form-item>
@@ -18,6 +18,15 @@
       <el-button type="primary" @click="submit">
         로그인
       </el-button>
+
+      <hr>
+
+      <el-button>
+        모달1 열기
+      </el-button>
+      <el-button>
+        모달2 열기
+      </el-button>
 </template>
 
 <script setup>
@@ -25,10 +34,12 @@ import _ from 'lodash'
 import apiClient from '@/utils/ApiClient.js'
 import ValidationUtils  from '@/utils/ValidationUtils.js'
 import { reactive } from 'vue'
+import router from '@/router/index.js'
+import Modal1 from "@/components/modal/Modal1.vue";
 
 const state = reactive({
   form : {
-    id: '',
+    email: '',
     password: '',
   }
 });
@@ -36,9 +47,12 @@ const submit = async () => {
   const errors = ValidationUtils.validateLogin(state.form);
 
   if (_.isEmpty(errors)) {
-      return await apiClient.post('/api/login', state.form)
-      .then(res => res.data)
-      .catch(err => console.log(err));
+    return await apiClient.post('/api/login', state.form)
+    .then(
+      res => res.data,
+      router.push('/')
+    )
+    .catch(err => console.log(err));
   } else {
     alert(errors.id || errors.password);
     return false;
