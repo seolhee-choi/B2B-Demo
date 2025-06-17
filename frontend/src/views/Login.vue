@@ -31,12 +31,13 @@
 
 <script setup>
 import _ from 'lodash'
+import router from '@/router/index.js'
 import apiClient from '@/utils/ApiClient.js'
 import ValidationUtils  from '@/utils/ValidationUtils.js'
 import { reactive } from 'vue'
-import router from '@/router/index.js'
-import Modal1 from "@/components/modal/Modal1.vue";
+import { useAccountStore } from "@/stores/useAccountStore.js";
 
+const accountStore = useAccountStore();
 const state = reactive({
   form : {
     email: '',
@@ -47,12 +48,16 @@ const submit = async () => {
   const errors = ValidationUtils.validateLogin(state.form);
 
   if (_.isEmpty(errors)) {
-    return await apiClient.post('/api/login', state.form)
-    .then(
-      res => res.data,
-      router.push('/')
-    )
-    .catch(err => console.log(err));
+    try {
+      const res = await apiClient.post('/api/login', state.form);
+      await accountStore.setAccount(res.data);
+      alert("로그인 성공")
+      router.push("/");
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
   } else {
     alert(errors.id || errors.password);
     return false;
