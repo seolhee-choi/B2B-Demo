@@ -39,7 +39,7 @@ public class ApiResponse<T> implements Serializable {
 
     public static <T> ApiResponse<T> of(HttpStatus status, String message) {
         ApiResponse<T> response = new ApiResponse<>(status, message);
-        //response.setBody(null);
+//        response.setBody(null);
         return response;
 
     }

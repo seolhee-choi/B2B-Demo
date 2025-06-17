@@ -6,4 +6,65 @@
 <mapper namespace="com.example.backend.mapper.MenuMapper">
 
 
+    <select id="selectMenuByUser" resultType="com.example.backend.dto.MenuDto">
+        WITH MENU_PATH (
+                        MENU_ID, NAME, PARENT_ID, DEPTH,
+                        FIRST, SECOND, THIRD, PAGE_URL
+            ) AS (
+            SELECT
+                MENU_ID,
+                MENU_NM,
+                PARENT_ID,
+                DEPTH,
+                MENU_NM AS FIRST,
+            CAST(NULL AS VARCHAR2(255)) AS SECOND,
+            CAST(NULL AS VARCHAR2(255)) AS THIRD,
+            PAGE_URL
+        FROM TB_MENU
+        WHERE DEPTH = 1 AND USE_YN = 'Y'
+        UNION ALL
+        SELECT
+            M.MENU_ID,
+            M.MENU_NM,
+            M.PARENT_ID,
+            M.DEPTH,
+            MP.FIRST,
+            CASE WHEN M.DEPTH = 2 THEN M.MENU_NM ELSE MP.SECOND END,
+            CASE WHEN M.DEPTH = 3 THEN M.MENU_NM ELSE MP.THIRD END,
+            M.PAGE_URL
+        FROM TB_MENU M
+                 JOIN MENU_PATH MP ON M.PARENT_ID = MP.MENU_ID
+            )
+        SELECT MP.MENU_ID, FIRST, SECOND, THIRD,
+            TMP.COM_PATH, MP.PAGE_URL, MP.DEPTH, MP.PARENT_ID
+        FROM MENU_PATH MP
+            JOIN TB_ROLE_MENU TRM
+                ON MP.MENU_ID = TRM.MENU_ID
+            JOIN TB_USER TU
+                ON TRM.ROLE_ID = TU.ROLE_ID
+            LEFT JOIN TB_MENU_PATH TMP
+                ON MP.MENU_ID = TMP.MENU_ID
+        <if test='searchVal != null and searchVal !=""'>
+        WHERE TU.USER_ID = #{userId}
+        </if>
+    </select>
+
+    <select id="selectMenuByNoUser" resultType="com.example.backend.dto.MenuDto">
+        SELECT
+            TM.MENU_ID,
+            TM.MENU_NM,
+            TM.PAGE_URL,
+            TMP.COM_PATH
+        FROM TB_MENU TM
+            LEFT JOIN TB_MENU_PATH TMP
+            ON TM.MENU_ID = TMP.MENU_ID
+        WHERE TM.MENU_ID IN (2,3)
+    </select>
+    <select id="existUser" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM TB_USER
+        <if test='searchVal != null and searchVal !=""'>
+            WHERE USER_ID = #{userId}
+        </if>
+    </select>
 </mapper>
