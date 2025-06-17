@@ -24,18 +24,17 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest request, HttpSession session) {
-        LoginResponse response = authService.login(request);
-        session.setAttribute("USER_ID", response.getUserId());
-        session.setAttribute("ROLE_ID", response.getRoleId());
-
-        ApiResponse<LoginResponse> apiResponse = ApiResponse.of(response);
         try {
+            LoginResponse response = authService.login(request);
+            session.setAttribute("USER_ID", response.getUserId());
+            session.setAttribute("ROLE_ID", response.getRoleId());
             return ResponseEntity.ok(ApiResponse.of(response));
-        }catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, e.toString()));
         }
     }
+
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpSession session) {
         session.invalidate();
