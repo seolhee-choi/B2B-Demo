@@ -18,15 +18,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class CustomerController {
-    @Autowired
-    private final CustomerService customerService;
 
-    @GetMapping("/getCustomerList")
-    public ApiResponse<List<CustomerDto>> getCustomerList() {
-        try {
-            return ApiResponse.of(customerService.getCustomerList());
-        }catch (Exception e) {
-            return ApiResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, e.toString());
-        }
-    }
+    //private final CustomerService customerService;
+
+//    @GetMapping("/getCustomerList")
+//    public ApiResponse<List<CustomerDto>> getCustomerList() {
+//        try {
+//            return ApiResponse.of(customerService.getCustomerList());
+//        } catch (Exception e) {
+//            return ApiResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, e.toString());
+//        }
+//    }
 }
