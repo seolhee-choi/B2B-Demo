@@ -23,7 +23,9 @@ public class CustomerController {
 
     // 리스트 조회
     @PostMapping("/list")
-    public ApiResponse<List<CustomerDto>> getCustomerList(@RequestParam String sword) {
+    public ApiResponse<List<CustomerDto>> getCustomerList(@RequestBody Map<String, Object> keyword) {
+
+        String sword = keyword.get("sword").toString();
         try {
             List<CustomerDto> list = customerService.getCustomerList(sword);
 
