@@ -1,176 +1,92 @@
-<script setup>
-import { ref } from 'vue'
-import CommonDialog from '@/components/common/CommonDialog.vue'
-
-const dialogOpen1 = ref(false)
-const dialogOpen2 = ref(false)
-
-// 초기 데이터
-const initialData1 = {
-  id: 'kentagon',
-  gender: 'F',
-  role: 'user',
-  birthdate: '2025-06-12',
-  hobbies: ['sports']
-}
-
-const initialData2 = {
-  id: 'kerigon',
-  gender: 'M',
-  birthdate: '2025-01-01'
-}
-
-// 유효성
-const rules1 = {
-  id: [{ required: true, message: '아이디는 필수입니다', trigger: 'blur' }],
-  name: [{ required: true, message: '이름은 필수입니다', trigger: 'blur' }],
-  birthdate: [{ required: true, message: '생년월일 선택은 필수입니다.', trigger: 'change', type: 'date' }],
-  hobbies: [{ type: 'array', required: true, message: '취미 선택 필요', trigger: 'change' }]
-}
-const rules2 = {
-  id: [{ required: true, message: '아이디는 필수입니다', trigger: 'blur' }],
-  name: [{ required: true, message: '이름은 필수입니다', trigger: 'blur' }],
-  birthdate: [{ required: true, message: '생년월일 선택은 필수입니다.', trigger: 'change', type: 'date' }]
-}
-
-// 필드 정의
-const fields1 = [
-  {
-    name: 'id',
-    label: '아이디',
-    type: 'text',
-    placeholder: '아이디 입력',
-    props: { readonly: true }
-  },
-  {
-    name: 'name',
-    label: '이름',
-    type: 'text',
-    placeholder: '이름 입력'
-  },
-  {
-    name: 'birthdate',
-    label: '생년월일',
-    type: 'date'
-  },
-  {
-    name: 'gender',
-    label: '성별',
-    type: 'radio',
-    options: [
-      { label: '남', value: 'M' },
-      { label: '여', value: 'F' }
-    ]
-  },
-  {
-    name: 'hobbies',
-    label: '취미',
-    type: 'checkbox',
-    options: [
-      { label: '독서', value: 'reading' },
-      { label: '운동', value: 'sports' },
-      { label: '음악 감상', value: 'music' }
-    ]
-  },
-  {
-    name: 'role',
-    label: '권한',
-    type: 'select',
-    options: [
-      { label: '관리자', value: 'admin' },
-      { label: '사용자', value: 'user' }
-    ]
-  },
-  {
-    name: 'bio',
-    label: '자기소개',
-    type: 'textarea',
-    placeholder: '자기소개를 입력해주세요',
-    props: { rows: 6 }
-  }
-]
-
-const fields2 = [
-  {
-    name: 'id',
-    label: '아이디',
-    type: 'text',
-    placeholder: '아이디 입력',
-    props: { readonly: true }
-  },
-  {
-    name: 'name',
-    label: '이름',
-    type: 'text',
-    placeholder: '이름 입력'
-  },
-  {
-    name: 'birthdate',
-    label: '생년월일',
-    type: 'date'
-  },
-  {
-    name: 'gender',
-    label: '성별',
-    type: 'radio',
-    options: [
-      { label: '남', value: 'M' },
-      { label: '여', value: 'F' }
-    ]
-  }
-]
-
-// 제출 핸들러
-function handleSubmit1(data) {
-  console.log('회원가입1 데이터:', data)
-}
-
-function handleSubmit2(data) {
-  console.log('회원가입2 데이터:', data)
-}
-defineOptions({ name: 'ClientCreate' })
-</script>
-
 <template>
-      <h1>고객생성</h1>
+  <div style="max-width: 500px; margin: 0 auto;">
+    <el-card>
+      <h2 style="text-align: center;">회원가입</h2>
 
-      <el-button type="primary" @click="dialogOpen1 = true">회원가입1</el-button>
+      <el-form :model="form" :rules="rules" ref="formRef" label-width="100px">
+        <el-form-item label="이름" prop="custNm">
+          <el-input v-model="form.custNm" />
+        </el-form-item>
 
-      <!-- 회원가입1 모달 -->
-      <CommonDialog
-        v-model="dialogOpen1"
-        title="회원정보 입력1"
-        cancelButtonTitle="닫기"
-        okButtonTitle="회원가입"
-        :width="'700px'"
-        :fields="fields1"
-        :rules="rules1"
-        :initialData="initialData1"
-        @submit="handleSubmit1"
-      >
-        <!-- 추가 버튼을 커스텀 슬롯에 삽입 -->
-        <template #addTemplate>
-          <el-form-item>
-            <el-button type="success" @click="dialogOpen2 = true">회원가입2</el-button>
-          </el-form-item>
-        </template>
-      </CommonDialog>
+        <el-form-item label="나이" prop="age">
+          <el-input v-model="form.age" placeholder="" />
+        </el-form-item>
 
-      <!-- 회원가입2 모달 -->
-      <CommonDialog
-        v-model="dialogOpen2"
-        title="회원정보 입력2"
-        cancelButtonTitle="취소"
-        okButtonTitle="등록"
-        :width="'800px'"
-        :fields="fields2"
-        :rules="rules2"
-        :initialData="initialData2"
-        @submit="handleSubmit2"
-      />
+        <el-form-item label="성별" prop="gender">
+          <el-radio-group v-model="form.gender">
+            <el-radio label="남성">남성</el-radio>
+            <el-radio label="여성">여성</el-radio>
+          </el-radio-group>
+        </el-form-item>
 
+        <el-form-item label="연락처" prop="phone">
+          <el-input v-model="form.phone" placeholder="010-1234-5678" />
+        </el-form-item>
+
+        <el-form-item label="우편번호" prop="postCode">
+          <el-input v-model="form.postCode" />
+        </el-form-item>
+
+        <el-form-item label="기본주소" prop="addr1">
+          <el-input v-model="form.addr1" />
+        </el-form-item>
+
+        <el-form-item label="상세주소" prop="addr2">
+          <el-input v-model="form.addr2" />
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" @click="submitForm">가입하기</el-button>
+          <el-button @click="resetForm" style="margin-left: 10px;">초기화</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
+  </div>
 </template>
 
-<style scoped>
+<script setup>
+import { ref } from 'vue'
+import axios from 'axios'
+import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
 
-</style>
+const router = useRouter()  // 라우터 인스턴스 사용
+
+const formRef = ref(null)
+
+const form = ref({
+  custNm: '',
+  age: '',
+  gender: '',
+  phone: '',
+  postCode: '',
+  addr1: '',
+  addr2: '',
+})
+const rules = {
+  custNm: [{ required: true, message: '이름을 입력하세요', trigger: 'blur' }],
+  phone: [{ required: true, message: '연락처를 입력하세요', trigger: 'blur' }],
+  postCode: [{ required: true, message: '우편번호를 입력하세요', trigger: 'blur' }],
+  addr1: [{ required: true, message: '기본주소를 입력하세요', trigger: 'blur' }],
+  addr2: [{ required: true, message: '상세주소를 입력하세요', trigger: 'blur' }],
+}
+
+const submitForm = () => {
+  formRef.value.validate(async valid => {
+    if (valid) {
+      try {
+        const res = await axios.post('/api/customer/save', form.value)
+        ElMessage.success('회원가입이 완료되었습니다.')
+        router.push({ name: 'clientList' })
+      } catch (error) {
+        console.error(error)
+        ElMessage.error('회원가입 중 오류가 발생했습니다.')
+      }
+    }
+  })
+}
+
+const resetForm = () => {
+  formRef.value.resetFields()
+}
+</script>
