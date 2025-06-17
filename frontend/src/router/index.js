@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAccountStore } from "@/stores/useAccountStore.js";
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import LoginLayout from '@/layouts/LoginLayout.vue'
 import TestLayout from '@/layouts/TestLayout.vue'
@@ -12,6 +13,7 @@ const routes = [
         path: '',
         name: 'login',
         component: () => import('@/views/Login.vue'),
+        meta: { guestOnly: true },
       }
     ]
   },
@@ -83,4 +85,16 @@ const router = createRouter({
   routes,
 })
 
+router.beforeEach(async(to, from, next) => {
+  const guestOnly = to.matched.some((record) => record.meta.guestOnly);
+
+  const accountStore = useAccountStore();
+  const isLoggedIn = accountStore.isLoggedIn;
+
+  if (guestOnly && isLoggedIn) {
+    return next("/");
+  }
+
+  next();
+})
 export default router

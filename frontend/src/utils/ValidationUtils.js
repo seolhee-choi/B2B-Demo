@@ -2,13 +2,13 @@
 import utils from '@/utils/CommonUtils.js'
 
 
-const validateLogin = ({ id, password }) => {
+const validateLogin = ({ email, password }) => {
   const errors = {};
 
-  if (utils.isEmptyString(id)) {
-    errors.id = "아이디를 입력해주세요.";
-  } else if (!utils.isValidId(id)) {
-    errors.id = "아이디 형식이 올바르지 않습니다 (영문 + 숫자 조합)";
+  if (utils.isEmptyString(email)) {
+    errors.id = "이메일을 입력해주세요.";
+  } else if (!utils.isValidId(email)) {
+    errors.id = "이메일 형식이 올바르지 않습니다 (영문 + 숫자 조합)";
   }
 
   if (utils.isEmptyString(password)) {
