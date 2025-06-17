@@ -21,12 +21,31 @@
 
       <hr>
 
-      <el-button>
-        모달1 열기
-      </el-button>
-      <el-button>
-        모달2 열기
-      </el-button>
+<!--      <el-button>-->
+<!--        모달1 열기-->
+<!--      </el-button>-->
+<!--      <el-button>-->
+<!--        모달2 열기-->
+<!--      </el-button>-->
+  <div>
+      <el-button @click="openDialog(1)">Open Dialog 1</el-button>
+      <el-button @click="openDialog(2)">Open Dialog 2</el-button>
+
+      <el-dialog
+        v-for="dialog in dialogs"
+        :key="dialog.id"
+        v-model="dialog.visible"
+        :title="'Dialog ' + dialog.id"
+        :z-index="dialog.zIndex"
+        width="30%"
+        draggable
+        :modal="false"
+        :append-to-body="false"
+        @mousedown="bringToFront(dialog.id)"
+      >
+      <p>This is Dialog {{ dialog.id }}</p>
+      </el-dialog>
+  </div>
 </template>
 
 <script setup>
@@ -64,6 +83,23 @@ const submit = async () => {
   }
 }
 
+const baseZIndex = 2000
+
+const dialogs = reactive([
+  { id: 1, visible: false, zIndex: baseZIndex + 1 },
+  { id: 2, visible: false, zIndex: baseZIndex + 2 }
+])
+
+const openDialog = (id) => {
+  const dlg = dialogs.find(d => d.id === id)
+  if (dlg) dlg.visible = true
+}
+
+const bringToFront = (id) => {
+  const maxZ = Math.max(...dialogs.map(d => d.zIndex)) + 1
+  const dlg = dialogs.find(d => d.id === id)
+  if (dlg) dlg.zIndex = maxZ
+}
 </script>
 <style scoped>
 .el-input {

@@ -28,5 +28,7 @@ export const useAccountStore = defineStore("account", {
       this.account.userId = '';
       this.account.roleId = '';
     }
-  }
+  },
+  /* 현재 쿠키로 토큰을받는 형식이 아니라서 우선 localStorage에 저장 */
+  persist : true
 })
