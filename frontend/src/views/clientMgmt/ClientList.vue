@@ -9,7 +9,7 @@
       <!-- <el-table-column prop="custNm" label="이름" width="100" header-align="center" /> -->
       <el-table-column label="이름" width="100" header-align="center">
         <template #default="scope">
-          <router-link :to="{ name: 'clientEdit', params: { id: scope.row.custId } }">
+          <router-link :to="{ name: 'clientEdit', params: { id: scope.row.custNm } }">
             {{ scope.row.custNm }}
           </router-link>
         </template>
@@ -110,12 +110,12 @@
 
 <script setup>
 import { ref, computed, nextTick } from 'vue'
-import axios from 'axios'
+import apiClient from '@/utils/ApiClient.js'
 
 // 반응형 데이터
 const tableData = ref([])
 const currentPage = ref(1)
-const pageSize = 3
+const pageSize = 5
 
 // 검색
 const searchType = ref('name')  // 'name' 또는 'tel'
@@ -165,17 +165,13 @@ const updateOne = async (custId) => {
   }
 
   try {
-    await axios.post('/api/customer/updateOne', {
-      custId,
-      field: fieldMapping[editingField.value],
-      value: editableValue.value,
-    })
+
+    await apiClient.post(`/api/customer/updateOne?custId=${custId}&field=${fieldMapping[editingField.value]}&value=${editableValue.value}`)
 
     const idx = tableData.value.findIndex(item => item.custId === custId)
     if (idx !== -1) {
       tableData.value[idx][editingField.value] = editableValue.value
     }
-
     cancelEdit()
   } catch (error) {
     console.error('수정 중 오류 발생:', error)
@@ -185,29 +181,11 @@ const updateOne = async (custId) => {
 
 // 데이터 요청 함수
 const fetchData = async () => {
-/*
-    tableData.value =
-    [
-      { custId: "1", custNm: "홍길동1", age: "31", gender: "남성", phone: "010-1235-0001", postCode: "12345", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "101동1호", createdAt: "25/06/12" },
-      { custId: "2", custNm: "홍길동2", age: "32", gender: "여성", phone: "010-1235-0001", postCode: "12345", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "101동1호", createdAt: "25/06/12" },
-      { custId: "3", custNm: "홍길동3", age: "33", gender: "남성", phone: "010-1235-0001", postCode: "12345", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "101동1호", createdAt: "25/06/12" },
-      { custId: "4", custNm: "홍길동4", age: "34", gender: "남성", phone: "010-1235-0001", postCode: "12345", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "101동1호", createdAt: "25/06/12" },
-      { custId: "5", custNm: "홍길동5", age: "35", gender: "남성", phone: "010-1235-0001", postCode: "12345", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "101동1호", createdAt: "25/06/12" },
-      { custId: "6", custNm: "홍길동6", age: "36", gender: "남성", phone: "010-1235-0001", postCode: "12345", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "101동1호", createdAt: "25/06/12" },
-      { custId: "7", custNm: "홍길동7", age: "37", gender: "여성", phone: "010-1235-0001", postCode: "12345", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "101동1호", createdAt: "25/06/12" },
-      { custId: "8", custNm: "홍길동8", age: "38", gender: "남성", phone: "010-1235-0001", postCode: "12345", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "101동1호", createdAt: "25/06/12" },
-      { custId: "9", custNm: "홍길동9", age: "39", gender: "남성", phone: "010-1235-0001", postCode: "12345", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "101동1호", createdAt: "25/06/12" },
-      { custId: "10", custNm: "홍길동10", age: "40", gender: "여성", phone: "010-1235-0001", postCode: "12345", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "101동1호", createdAt: "25/06/12" },
-      { custId: "11", custNm: "홍길동11", age: "41", gender: "남성", phone: "010-1235-0001", postCode: "12345", addr1: "인천광역시 남동구 구월동 LG자이", addr2: "101동1호", createdAt: "25/06/12" },
-    ]
-
-    currentPage.value = 1 // 검색 후 페이지를 1로 초기화
-*/
   try {
-    const response = await axios.post('/api/customer/list', {
+    const response = await apiClient.post('/api/customer/list', {
       sword: searchKeyword.value
     })
-    tableData.value = response.data  // 응답 데이터 구조에 맞게 조정
+    tableData.value = response.data.body  // 응답 데이터 구조에 맞게 조정
 
     currentPage.value = 1 // 검색 후 페이지를 1로 초기화
   } catch (error) {
@@ -215,6 +193,6 @@ const fetchData = async () => {
   }
 }
 
-// 컴포넌트 마운트 시 초기 데이터 로딩
+// 초기 데이터 불러오기
 fetchData()
 </script>
