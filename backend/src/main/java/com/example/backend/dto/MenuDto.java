@@ -1,18 +1,16 @@
 package com.example.backend.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter @Setter @RequiredArgsConstructor
+@Data
 public class MenuDto {
 
     @Schema(description = "메뉴 ID")
     private int menuId;
 
     @Schema(description = "메뉴명")
-    private String menuName;
+    private String menuNm;
 
     @Schema(description = "URL")
     private String pageUrl;
@@ -23,4 +21,9 @@ public class MenuDto {
     @Schema(description = "메뉴 계층")
     private int dept;
 
+
+    private String first;
+    private String second;
+    private String third;
+    private String comPath;
 }

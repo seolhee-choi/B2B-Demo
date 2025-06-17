@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.backend.mapper.SalesMapper">
+    <select id="selectSalesListAll" resultType="com.example.backend.dto.SalesDto">
+        SELECT 	C.CUST_NM,
+                  TP.PRO_CD,
+                  TP.PRO_NM,
+                  TP.PRICE,
+                  TP.DIS_PRICE,
+                  TP.FIN_PRICE,
+                  TO_CHAR(TS.DELIVERY_DATE,'YYYY-MM-DD') AS DELIVERY_DATE,
+                  TO_CHAR(TS.CREATE_DATE,'YYYY-MM-DD') AS CREATE_DATE,
+                  C.ADDR1 || ' ' || C.ADDR2 AS ADDRESS,
+                  TU.EMAIL
+        FROM TB_SALES TS
+                 JOIN CUSTOMER C ON TS.CUST_ID = C.CUST_ID
+                 JOIN TB_PRODUCT TP ON TP.PRO_ID = TS.PRO_ID
+                 JOIN TB_USER TU ON TS.USER_ID = TU.USER_ID
+    </select>
+
+    <insert id="insertSalesInfo">
+        INSERT INTO TB_SALES (CUST_ID, USER_ID, PRO_ID, DELIVERY_DATE)
+        VALUES (#{custId}, #{userId}, #{proId}, #{deliveryDate})
+    </insert>
+
+</mapper>
