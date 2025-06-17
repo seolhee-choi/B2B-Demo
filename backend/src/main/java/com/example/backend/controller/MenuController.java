@@ -24,16 +24,13 @@ public class MenuController {
 
     @PostMapping("/list")
     public ApiResponse<List<MenuDto>> getMenusByUser(@RequestParam String userId) {
-/*
-        List<String> list = new ArrayList<>();
-        list.add("메뉴3");
-        list.add("메뉴1");
-        list.add("메뉴2");*/
-
         try {
             List<MenuDto> list = menuService.existUser(userId) > 0 ?
                     menuService.selectMenuByUser(userId)
                     : menuService.selectMenuByNoUser();
+
+
+
 
             return new ApiResponse<>(HttpStatus.OK.toString(), "메뉴조회 성공",list);
         } catch (Exception e) {
