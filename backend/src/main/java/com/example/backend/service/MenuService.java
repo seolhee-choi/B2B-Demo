@@ -16,17 +16,14 @@ public class MenuService {
 
     private final MenuMapper menuMapper;
 
-
-    public int existUser(String userId) {
-        return menuMapper.existUser(userId);
-    }
-
-
-
-    public List<MenuDto> selectMenuByUser(String userId) {
+    public List<MenuDto> selectMenu(String userId) {
         Map<Integer, MenuDto> menuMap = new HashMap<>();
         List<MenuDto> rootMenus = new ArrayList<>();
-        List<MenuDto> menuList =  menuMapper.selectMenuByUser(userId);
+//        List<MenuDto> menuList =  menuMapper.selectMenuByUser2(userId);
+
+        List<MenuDto> menuList = menuMapper.existUser(userId) > 0 ?
+                menuMapper.selectMenuByUser2(userId)
+                : menuMapper.selectMenuByNoUser();
 
         // 1. 먼저 menuId 기준으로 map에 저장
         for (MenuDto menu : menuList) {
@@ -49,17 +46,7 @@ public class MenuService {
                 }
             }
         }
-
-
         return rootMenus;
     }
-
-
-    public List<MenuDto> selectMenuByNoUser() {
-        return menuMapper.selectMenuByNoUser();
-    }
-
-
-
 
 }

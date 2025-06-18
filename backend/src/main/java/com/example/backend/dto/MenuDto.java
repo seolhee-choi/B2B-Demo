@@ -24,10 +24,10 @@ public class MenuDto {
     private int depth;
 
 
-    private String first;
+/*    private String first;
     private String second;
     private String third;
-    private String comPath;
+    private String comPath; */
 
 
     private List<MenuDto> children;
