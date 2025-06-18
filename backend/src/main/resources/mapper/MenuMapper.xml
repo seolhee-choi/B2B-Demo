@@ -44,27 +44,41 @@
                 ON TRM.ROLE_ID = TU.ROLE_ID
             LEFT JOIN TB_MENU_PATH TMP
                 ON MP.MENU_ID = TMP.MENU_ID
-        <if test='searchVal != null and searchVal !=""'>
+        <if test='userId != null and userId !=""'>
         WHERE TU.USER_ID = #{userId}
         </if>
     </select>
 
     <select id="selectMenuByNoUser" resultType="com.example.backend.dto.MenuDto">
-        SELECT
-            TM.MENU_ID,
-            TM.MENU_NM,
-            TM.PAGE_URL,
-            TMP.COM_PATH
-        FROM TB_MENU TM
-            LEFT JOIN TB_MENU_PATH TMP
-            ON TM.MENU_ID = TMP.MENU_ID
-        WHERE TM.MENU_ID IN (2,3)
+        SELECT  MENU_ID,
+                MENU_NM,
+                PAGE_URL
+        FROM    TB_MENU
+        WHERE MENU_ID IN (2,3)
     </select>
+
     <select id="existUser" resultType="java.lang.Integer">
         SELECT count(*)
         FROM TB_USER
-        <if test='searchVal != null and searchVal !=""'>
+        <if test='userId != null and userId !=""'>
             WHERE USER_ID = #{userId}
+        </if>
+    </select>
+
+    <select id="selectMenuByUser2" resultType="com.example.backend.dto.MenuDto">
+        SELECT  TM.MENU_ID,
+                MENU_NM,
+                PAGE_URL,
+                PARENT_ID,
+                DEPTH
+        FROM 	TB_MENU TM
+                    JOIN TB_ROLE_MENU TRM
+                         ON TM.MENU_ID = TRM.MENU_ID
+                    JOIN TB_USER TU
+                         ON TRM.ROLE_ID = TU.ROLE_ID
+        WHERE USE_YN = 'Y'
+        <if test='userId != null and userId !=""'>
+            AND TU.USER_ID = #{userId}
         </if>
     </select>
 </mapper>
