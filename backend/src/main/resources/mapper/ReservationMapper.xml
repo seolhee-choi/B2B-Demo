@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.backend.mapper.ReservationMapper">
+    <select id="getReservationList" resultType="ReservationDto">
+        SELECT RESERV_ID, CUST_NM, TYPE, INTEREST_PD, CREATED_AT
+        FROM RESERVATION
+    </select>
+
+    <select id="getReservationsByDate" parameterType="string" resultType="ReservationDto">
+        SELECT
+            TO_CHAR(created_at, 'YYYY-MM-DD') AS reservDate,
+            TO_CHAR(created_at, 'HH24:MI') AS reservTime,
+            cust_nm,
+            type,
+            interest_pd
+        FROM
+            RESERVATION
+        ORDER BY
+            created_at ASC
+    </select>
+</mapper>
