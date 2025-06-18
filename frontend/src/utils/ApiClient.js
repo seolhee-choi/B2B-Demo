@@ -8,6 +8,7 @@ const headers = {
 const instance = axios.create({
   baseURL: baseURL,
   headers: headers,
+  withCredentials: true,
 })
 
 instance.interceptors.request.use(request => {

@@ -9,6 +9,7 @@ import java.util.List;
 public interface MenuMapper {
 
     List<MenuDto>selectMenuByUser(String userId);
+    List<MenuDto>selectMenuByUser2(String userId);
     List<MenuDto> selectMenuByNoUser();
 
     int existUser(String userId);
