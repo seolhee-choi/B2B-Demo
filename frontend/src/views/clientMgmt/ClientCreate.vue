@@ -14,8 +14,8 @@
 
         <el-form-item label="성별" prop="gender">
           <el-radio-group v-model="form.gender">
-            <el-radio label="남성">남성</el-radio>
-            <el-radio label="여성">여성</el-radio>
+            <el-radio :value="'남성'">남성</el-radio>
+            <el-radio :value="'여성'">여성</el-radio>
           </el-radio-group>
         </el-form-item>
 
@@ -46,7 +46,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
+import apiClient from '@/utils/ApiClient.js'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 
@@ -75,7 +75,7 @@ const submitForm = () => {
   formRef.value.validate(async valid => {
     if (valid) {
       try {
-        const res = await axios.post('/api/customer/save', form.value)
+        const res = await apiClient.post('/api/customer/save', form.value)
         ElMessage.success('회원가입이 완료되었습니다.')
         router.push({ name: 'clientList' })
       } catch (error) {
