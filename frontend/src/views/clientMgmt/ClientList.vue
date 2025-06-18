@@ -182,9 +182,7 @@ const updateOne = async (custId) => {
 // 데이터 요청 함수
 const fetchData = async () => {
   try {
-    const response = await apiClient.post('/api/customer/list', {
-      sword: searchKeyword.value
-    })
+    const response = await apiClient.post(`/api/customer/list?sword=${searchKeyword.value}`)
     tableData.value = response.data.body  // 응답 데이터 구조에 맞게 조정
 
     currentPage.value = 1 // 검색 후 페이지를 1로 초기화
