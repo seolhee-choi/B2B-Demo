@@ -3,6 +3,8 @@ package com.example.backend.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class MenuDto {
 
@@ -19,11 +21,15 @@ public class MenuDto {
     private int parentId;
 
     @Schema(description = "메뉴 계층")
-    private int dept;
+    private int depth;
 
 
-    private String first;
+/*    private String first;
     private String second;
     private String third;
-    private String comPath;
+    private String comPath; */
+
+
+    private List<MenuDto> children;
+
 }
