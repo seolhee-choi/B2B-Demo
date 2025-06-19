@@ -2,14 +2,17 @@
   <div>
     <!-- 테이블 -->
     <el-table
-      :data="paginatedData"
+      :data="tableData"
       border
       style="width: 95%; margin-bottom: 20px;"
     >
       <!-- <el-table-column prop="custNm" label="이름" width="100" header-align="center" /> -->
-      <el-table-column label="이름" width="100" header-align="center">
+      <el-table-column label="이름" width="100" header-align="center" align="center">
         <template #default="scope">
-          <router-link :to="{ name: 'clientEdit', params: { id: scope.row.custNm } }">
+          <router-link
+            :to="{ name: 'clientEdit', params: { id: scope.row.custNm } }"
+            class="link"
+          >
             {{ scope.row.custNm }}
           </router-link>
         </template>
@@ -72,21 +75,63 @@
       </el-table-column>
 
       <el-table-column prop="postCode" label="우편번호" width="100" header-align="center" align="center" />
-      <el-table-column prop="addr1" label="기본주소" header-align="center" />
-      <el-table-column prop="addr2" label="상세주소" header-align="center" />
-      <el-table-column prop="createdAt" label="가입일자" width="100" header-align="center" />
-    </el-table>
+      <el-table-column prop="addr1" label="기본주소" width="350" header-align="center" align="center" />
+      <el-table-column prop="addr2" label="상세주소" width="100" header-align="center" align="center" />
+      <el-table-column prop="createdAt" label="가입일자" width="120" header-align="center" align="center" />
+      <el-table-column fixed="right" label="옵션" min-width="40" align="center">
+        <template #default="scope">
+          <el-button
+            v-if="!scope.row.isNew"
+            link
+            type="primary"
+            size="small"
+            @click.prevent="deleteRow(scope.$index)"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                 style="width: 20px; height: 20px;">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21
+                      c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79
+                      m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562
+                      c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916
+                      c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0
+                      c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+              />
+            </svg>
+          </el-button>
 
+          <el-button
+            v-else
+            link
+            type="primary"
+            size="small"
+            @click.prevent="addRow(scope.$index)"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                 style="width: 20px; height: 20px;">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-button class="mt-4" style="width: 100%" @click="onAddItem">
+      테스트 행추가
+    </el-button>
     <!-- 페이지네이션과 검색창을 같은 줄에 정렬 -->
     <div style="display: flex; justify-content: space-between; align-items: center; width: 80%; margin: 0 auto;">
       <!-- 페이지네이션 -->
-      <el-pagination
+<!--      <el-pagination
         background
         layout="prev, pager, next"
         :total="tableData.length"
         :page-size="pageSize"
         v-model:current-page="currentPage"
-      />
+      />-->
 
       <!-- 검색 영역 -->
       <div style="display: flex; align-items: center;">
@@ -109,23 +154,26 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick } from 'vue'
+import { ref, nextTick } from 'vue'
 import apiClient from '@/utils/ApiClient.js'
+import {now} from "lodash";
 
 // 반응형 데이터
 const tableData = ref([])
 const currentPage = ref(1)
-const pageSize = 5
+// const pageSize = 5
 
 // 검색
 const searchType = ref('name')  // 'name' 또는 'tel'
 const searchKeyword = ref('')
 
+/*
 // 페이지에 따른 데이터 계산
 const paginatedData = computed(() => {
   const start = (currentPage.value - 1) * pageSize
   return tableData.value.slice(start, start + pageSize)
 })
+*/
 
 // 편집 관련 상태
 const editingRowId = ref(null) // 현재 편집 중인 행 custId
@@ -191,6 +239,38 @@ const fetchData = async () => {
   }
 }
 
+const deleteRow = (index) => {
+  tableData.value.splice(index, 1);
+}
+
+const onAddItem = () => {
+  tableData.value.push({
+    // custId: `temp-${Date.now()}`, // 고유 ID 생성 (임시)
+    custNm: '새 고객',            // 이름 컬럼은 custNm임!
+    age: '20',
+    gender: '여성',
+    phone: '010-1234-5678',
+    postCode: '12345',
+    addr1: '기본주소',
+    addr2: '상세주소',
+    createdAt: new Date().toISOString().slice(0, 10), // YYYY-MM-DD 형식
+    isNew: true
+  })
+}
+
+const addRow = (index) => {
+  alert(index + '가 저장되었습니다.')
+}
+
+
 // 초기 데이터 불러오기
 fetchData()
 </script>
+
+<style scoped>
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+</style>
+

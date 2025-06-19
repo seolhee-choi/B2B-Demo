@@ -20,5 +20,5 @@ private String phone;
 private String postCode;
 private String addr1;
 private String addr2;
-private LocalDateTime createdAt;
+private String createdAt;
 }

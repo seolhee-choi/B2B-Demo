@@ -6,10 +6,11 @@
 <mapper namespace="com.example.backend.mapper.CustomerMapper">
     <!-- 생성일 역순으로 고객 리스트 조회  -->
     <select id="getCustomerList" parameterType="String" resultType="CustomerDto">
-        SELECT CUST_ID, CUST_NM, AGE, GENDER, PHONE, POST_CODE, ADDR1, ADDR2, CREATED_AT
+        SELECT CUST_ID, CUST_NM, AGE, GENDER, PHONE, POST_CODE, ADDR1, ADDR2,
+            TO_CHAR(CREATED_AT,'YYYY-MM-DD') AS CREATED_AT
         FROM CUSTOMER
-        <if test='sword != null or sword != ""'>
-            WHERE CUST_NM = #{sword}
+        <if test='sword != null and sword != ""'>
+        WHERE CUST_NM LIKE '%' ||  #{sword} || '%'
         </if>
         ORDER BY CREATED_AT DESC
     </select>
