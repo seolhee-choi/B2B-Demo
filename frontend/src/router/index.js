@@ -42,6 +42,26 @@ const routes = [
         component: () => import('@/views/clientMgmt/ClientEdit.vue'),
       },
       {
+        path: 'clientMgmt/modalSample01',
+        name: 'modalSample01',
+        component: () => import('@/views/clientMgmt/modalSample01.vue'),
+      },
+      {
+        path: 'clientMgmt/modalSample02',
+        name: 'modalSample02',
+        component: () => import('@/views/clientMgmt/modalSample02.vue'),
+      },
+      {
+        path: 'clientMgmt/modalSample03',
+        name: 'modalSample03',
+        component: () => import('@/views/clientMgmt/modalSample03.vue'),
+      },
+      {
+        path: 'clientMgmt/modalSample04',
+        name: 'modalSample04',
+        component: () => import('@/views/clientMgmt/modalSample04.vue'),
+      },
+      {
         path: 'salesMgmt/list',
         name: 'salesList',
         component: () => import('@/views/salesMgmt/SalesList.vue'),

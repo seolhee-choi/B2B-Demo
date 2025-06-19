@@ -11,7 +11,11 @@ export const menuData = [
     name: 'Client Management',
     children: [
       { id: 'clientList', name: 'ClientList', route: '/clientMgmt/list' },
-      { id: 'clientCreate', name: 'ClientCreate', route: '/clientMgmt/create' }
+      { id: 'clientCreate', name: 'ClientCreate', route: '/clientMgmt/create' },
+      { id: 'modalSample01', name: 'modalSample01', route: '/clientMgmt/modalSample01' },
+      { id: 'modalSample02', name: 'modalSample02', route: '/clientMgmt/modalSample02' },
+      { id: 'modalSample03', name: 'modalSample03', route: '/clientMgmt/modalSample03' },
+      { id: 'modalSample04', name: 'modalSample04', route: '/clientMgmt/modalSample04' },
     ]
   },
   {

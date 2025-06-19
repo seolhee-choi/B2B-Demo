@@ -42,7 +42,7 @@
 
         <el-form-item>
           <el-button type="primary" @click="submitForm">수정하기</el-button>
-          <el-button @click="resetForm" style="margin-left: 10px;">초기화</el-button>
+          <el-button @click="resetForm" style="margin-left: 10px;">취소</el-button>
         </el-form-item>
       </el-form>
     </el-card>
